@@ -13,7 +13,8 @@ void setup() {
 
   size(640, 480);
   video = new Movie(this, "IR_test_1_640x480.mp4");
-  video.loop();
+  video.play();
+
   
   tracker = new Tracker();
   
@@ -41,7 +42,10 @@ void draw() {
 
   video.loadPixels();
   image(video, 0, 0);
- 
+  if (video.time() > video.duration() -2){ // rewind video
+    video.jump(0);
+  }
+  println("Video time", video.time(), "/", video.duration());
   
   tracker.update(video); // upcates the tracker with newest video frame
   //tracker.show(); // visualizes all blobs from the tracker object
@@ -77,7 +81,7 @@ void draw() {
       }
       blobs[i].show(); // visualizes blobs individually from the blob list returned from the tracker  
     }
-    println();
+    
     
     // check if both coordinates have been set
     if (x1 != -1 && y1 != -1 && x2 != -1 && y2 != -1){
@@ -89,7 +93,7 @@ void draw() {
     } 
     
   }
-
+  println();
 }
 
 
