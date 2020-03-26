@@ -53,7 +53,6 @@ void draw() {
   
   // detects a player and sets the player found flag
   playerFoundThisFrame = findPlayer(); 
-
   
   // Visualize tracking
   if (playerFoundThisFrame){
@@ -70,6 +69,11 @@ void draw() {
 }
 
 
+
+
+// ----------------------------------------
+// ************ HELPER METHODS ************
+// ----------------------------------------
 
 // method updating video player
 void movieEvent(Movie m) {
