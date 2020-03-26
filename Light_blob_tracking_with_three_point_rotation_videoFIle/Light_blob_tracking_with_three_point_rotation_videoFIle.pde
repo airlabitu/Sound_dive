@@ -75,13 +75,8 @@ void draw() {
 // ************************ HELPER METHODS ************************
 // ----------------------------------------------------------------
 
-// method updating video player
-void movieEvent(Movie m) {
-  m.read();
-}
 
-
-// method that detect a player in the blob list data, updates global variables and returns boolean 
+// --- method that detect a player in the blob list data, updates global variables and returns boolean ---
 boolean findPlayer(){
   
   // create return variable
@@ -118,7 +113,7 @@ boolean findPlayer(){
 }
 
 
-// methosd that draws visual overlay of tracking info
+// --- methosd that draws visual overlay of tracking info ---
 void drawOverlay(){
     // draw ellipse on top of player position blob / player position
     fill(255);
@@ -142,7 +137,7 @@ void drawOverlay(){
 }
 
 
-// method that calculates rotation of one point around another
+// --- method that calculates rotation of one point around another ---
 float getRotation(float x1, float y1, float x2, float y2){
   
   PVector a = new PVector(x1, y1);   // point a
@@ -161,13 +156,12 @@ float getRotation(float x1, float y1, float x2, float y2){
 }
 
 
-// method that calculates the angle from point (a_x, a_x) and to the two other points (b_x, b_y) & (c_x, c_y)
+// --- method that calculates the angle from point (a_x, a_x) and to the two other points (b_x, b_y) & (c_x, c_y) ---
 float getAngleBetween(float a_x, float a_y, float b_x, float b_y, float c_x, float c_y){
   
   PVector a = new PVector(a_x, a_y);   // point a
   PVector b = new PVector(b_x, b_y);   // point b
   PVector c = new PVector(c_x, c_y);   // point c
-  //PVector r = new PVector(0, -100);  // reference point
  
   c.sub(a);             // move point c
   b.sub(a);             // move point b
@@ -177,4 +171,10 @@ float getAngleBetween(float a_x, float a_y, float b_x, float b_y, float c_x, flo
   float angle = degrees(PVector.angleBetween(b,c));
   
   return angle; // return angle
+}
+
+
+// --- method updating video player ---
+void movieEvent(Movie m) {
+  m.read();
 }
