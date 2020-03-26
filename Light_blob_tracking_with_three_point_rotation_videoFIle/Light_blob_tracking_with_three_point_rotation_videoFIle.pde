@@ -2,64 +2,89 @@ import processing.video.*;
 
 Movie video;
 
-Tracker tracker;
+Tracker tracker; // tracker for detecting light blobs in video input
+Blob [] blobs; // list of blobs
 
+PVector playerPosition = new PVector(); // position of player
+float frontAngle = 0.0; // front facing angle of player
+boolean playerFoundThisFrame = false; // flag showing if player was tracked in current frame
 
-Blob [] blobs;
-
-float frontAngle = 0.0;
 
 void setup() {
 
   size(640, 480);
-  video = new Movie(this, "IR_test_video_3_dots_v1_640x480.mp4");
+  video = new Movie(this, "IR_test_video_3_dots_v1_640x480.mp4"); // video file in data folder to use for simulation
   video.play();
-
   
   tracker = new Tracker();
   
   // TRACKER SETTINGS
   tracker.brightThreshold = 200;      // min brightness for the pixels that can belong to a blob
-  //tracker.distThreshold = 5;
-  tracker.minNrOfPixels = 5;       // min nr of pixels belonging to the blob
+  tracker.minNrOfPixels = 5;          // min nr of pixels belonging to the blob
   //tracker.maxNrOfPixels = 500;      // max nr of pixels belonging to the blob
-  tracker.minArea = 4;            // min area (w*h) of bounding box
+  tracker.minArea = 4;                // min area (w*h) of bounding box
   //tracker.maxArea = 1000;           // max area (w*h) of bounding box
-  tracker.minWidth = 2;            // min width for bounding box
+  tracker.minWidth = 2;               // min width for bounding box
   //tracker.maxWidth = 50;            // min width for bounding box
-  tracker.minHeight = 2;           // min height for bounding box
+  tracker.minHeight = 2;              // min height for bounding box
   //tracker.maxHeight = 50;           // max height for bounding box
   //tracker.pixelToAreaRatio = 0.5;   // ratio of pixels in the bounding box that needs to belongs to the blob in order for it to count 1.0 means all pixels 
   //tracker.widthToHeightRatio = 0.4; // ratio of how squared the bounding box must be. 0.0 is perfect square
 
 }
 
-void movieEvent(Movie m) {
-  m.read();
-}
 
 void draw() {
 
   video.loadPixels();
   image(video, 0, 0);
-  if (video.time() > video.duration() -2){ // rewind video
+  
+  // rewind video
+  if (video.time() > video.duration() -2){ 
     video.jump(0);
   }
-  println("Video time", video.time(), "/", video.duration());
+  //println("Video time", video.time(), "/", video.duration()); // prints the video file time info
   
-  tracker.update(video); // upcates the tracker with newest video frame
-  //tracker.show(); // visualizes all blobs from the tracker object
+  // upcates the tracker with newest video frame
+  tracker.update(video); 
   
-  
-  // example of how to extract blob info from the tracker class
+  // extract a blob list from the tracker class
   blobs = tracker.getBlobs();
   
+  // detects a player and sets the player found flag
+  playerFoundThisFrame = findPlayer(); 
+
   
-  // check that we only have two blobs
-  if (blobs.length == 3){
+  // Visualize tracking
+  if (playerFoundThisFrame){
+    tracker.show(); // visualizes all blobs from the tracker object
+    drawOverlay(); // draw visual overlay
+  }
+  
+  
+  /*
+    Time to work on the player data in the "playerPosition", "frontAngle" and "playerFoundThisFrame" variables...
     
-    // initialize back point
-    PVector backPoint = new PVector(); 
+  */
+  
+}
+
+
+
+// method updating video player
+void movieEvent(Movie m) {
+  m.read();
+}
+
+
+// method that detect a player in the blob list data, updates global variables and returns boolean 
+boolean findPlayer(){
+  
+  // create return variable
+  boolean playerFound = false; 
+  
+  // check that we have exactly three blobs
+  if (blobs.length == 3){
     
     // traverse the three blob points
     for (int i = 0; i < blobs.length; i++){
@@ -69,10 +94,9 @@ void draw() {
       
       // check if the current blob is the back point
       if (angleBetween > 100) {
-        fill(255);
-        noStroke();
-        ellipse(blobs[i].center.x, blobs[i].center.y, 15, 15);
-        backPoint = blobs[i].center; // save back point for visualization later
+        playerFound = true; // flag player found
+        playerPosition = blobs[i].center; // update global variable with player position 
+        
         float rotationA = getRotation(blobs[i].center.x, blobs[i].center.y, blobs[(i+1)%3].center.x, blobs[(i+1)%3].center.y); // rotation of one of the side points
         float rotationB = getRotation(blobs[i].center.x, blobs[i].center.y, blobs[(i+2)%3].center.x, blobs[(i+2)%3].center.y); // rotation of the other side point
         
@@ -84,23 +108,33 @@ void draw() {
         else frontAngle = min(rotationA, rotationB) + 120/2; // clock wise rotation
         
       }
-      blobs[i].show(); // visualize current blob
-    
     }
-    
-    // visualize view direction (frontAngle)
+  }
+  return playerFound;
+}
+
+
+// methosd that draws visual overlay of tracking info
+void drawOverlay(){
+    // draw ellipse on top of player position blob / player position
+    fill(255);
+    noStroke();
+    ellipse(playerPosition.x, playerPosition.y, 15, 15);
+        
+    // draw direction line (frontAngle)
     pushMatrix();
-    translate(backPoint.x, backPoint.y);
+    translate(playerPosition.x, playerPosition.y);
     rotate(radians(frontAngle));
+    stroke(#F70AF7);
     line(0,0,0,-30);
     popMatrix();
     
-    textSize(20);
-    text("FRONT ANGLE: " + round(frontAngle) + "°", 10, 30); 
-    
-    println();
-  }
-  
+    // draw angle and position texts
+    textSize(15);
+    text("Angle: " + round(frontAngle) + "°", 10, 30);
+    text("Position", 10, 55);
+    text("X: " + playerPosition.x, 30, 75);
+    text("Y: " + playerPosition.y, 30, 95);
 }
 
 
@@ -115,7 +149,7 @@ float getRotation(float x1, float y1, float x2, float y2){
   a.sub(a);             // move point a
   
   // calculate rotation
-  float angle = degrees(r.angleBetween(r,b));
+  float angle = degrees(PVector.angleBetween(r,b));
   if (b.x < 0){ // turn result around if b is on the left side of a
     angle = 360 - angle;  
   }
