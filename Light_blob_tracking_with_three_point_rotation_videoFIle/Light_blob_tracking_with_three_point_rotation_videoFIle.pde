@@ -100,7 +100,7 @@ boolean findPlayer(){
         float rotationB = getRotation(blobs[i].center.x, blobs[i].center.y, blobs[(i+2)%3].center.x, blobs[(i+2)%3].center.y); // rotation of the other side point
         
         // calculate and set the rotation angle
-        if (abs(rotationA-rotationB) > 150){ // anti clockwise rotation
+        if (abs(rotationA-rotationB) > 150){ // counter clockwise rotation
           frontAngle = min(rotationA, rotationB) - 120/2;
           if (frontAngle < 0) frontAngle = 360+frontAngle; 
         }
