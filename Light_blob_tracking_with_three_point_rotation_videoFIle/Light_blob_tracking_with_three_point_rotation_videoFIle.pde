@@ -28,9 +28,8 @@ void setup() {
   //tracker.maxWidth = 50;            // min width for bounding box
   tracker.minHeight = 2;              // min height for bounding box
   //tracker.maxHeight = 50;           // max height for bounding box
-  //tracker.pixelToAreaRatio = 0.5;   // ratio of pixels in the bounding box that needs to belongs to the blob in order for it to count 1.0 means all pixels 
+  //tracker.pixelToAreaRatio = 0.5;   // ratio of pixels in the bounding box that must belon to the blob (1.0 means all pixels) 
   //tracker.widthToHeightRatio = 0.4; // ratio of how squared the bounding box must be. 0.0 is perfect square
-
 }
 
 
