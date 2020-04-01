@@ -5,7 +5,6 @@
   Please make sure to credit when reusing this code... :-)
 */
 
-
 import org.openkinect.freenect.*;
 import org.openkinect.processing.*;
 
