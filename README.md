@@ -32,8 +32,12 @@
  ## Hotkeys
  
  M - Toggle manual mode (on by default). Swaps player to mouse movement and allows for manual turning and Z adjustment
+ 
  Shift - Traverse dowh on Z-axis (only with Manual Mode)
+ 
  Space - Traverse up on Z-axis (only with Manual Mode)
+ 
  Q - Rotate left (only with Manual Mode)
+ 
  E - Rotate left (only with Manual Mode)
 
