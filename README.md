@@ -6,6 +6,7 @@
   Developed as part of a collaboration between AIR LAB at ITU, and CATCH.
   
   Kinect tracking code by: Halfdan Hauch Jensen, halj@itu.dk, AIR LAB, IT University of Cph.
+  
   SoundDive by: Emil Vogt Sørensen, emvs@itu.dk and Frederic Widding, frew@itu.dk
   
   Requires:
@@ -16,9 +17,7 @@
   
   For details abou Headset setup:
   https://airlab.itu.dk/orientation-and-position-tracking/
-*/
 
-/*
   How to set up Kinect Tracking for Windows 10, 64bit:
  
  1) Download and install Kinect 1.7 SDK
