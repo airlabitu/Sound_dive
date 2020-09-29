@@ -96,8 +96,8 @@ int w_height = 480;
   //Sound playerMovement = new Sound("Player Movement", color(255,255,255), playerPosition.x, playerPosition.y, playerPosition.z, 5, 4);
   
   // Elevators
-  Sound bubbleElevatorDown = new Sound("Bubble Elevator Down", color(255,255,0), 50, w_height-50, 99, 100, 21);
-  Sound bubbleElevatorUp = new Sound("Bubble Elevator Up", color(255,255,255), 420, 30, 99, 100, 22);
+  Sound bubbleElevatorDown = new Sound("Bubble Elevator Down", color(255,255,0), 21, 23, 99, 100, 21);
+  Sound bubbleElevatorUp = new Sound("Bubble Elevator Up", color(255,255,255), 20, 460, 99, 100, 22);
   
   // High
     // Drone encounters
@@ -281,11 +281,11 @@ void draw() {
   
   // Cable Drone
   //if (playerPosition.z == cableDrone.z || playerPosition.z > cableDrone.z && cableDrone.z < cableDrone.z + 5 || playerPosition.z < cableDrone.z && playerPosition.z > cableDrone.z - 5){
-  cableDrone.initSound(40);
-  cableDrone.move(0,cableDrone.y, cableDrone.z, width-(width/3), cableDrone.y, cableDrone.z);
+  //cableDrone.initSound(40);
+  //cableDrone.move(0,cableDrone.y, cableDrone.z, width-(width/3), cableDrone.y, cableDrone.z);
   
     // Extra sound for player interaction requires extra logic.
-      cableDroneScan.initSound(10);
+      //cableDroneScan.initSound(10);
       
       cableDroneScan.x = cableDrone.x;
       cableDroneScan.y = cableDrone.y;
@@ -306,7 +306,7 @@ void draw() {
   // Dive-area
   bubbleElevatorUp.drawCircle(50);
   
-  if (dist(playerPosition.x,playerPosition.y,bubbleElevatorUp.x,bubbleElevatorUp.y) <= 50 && playerPosition.z != -10){
+  if (dist(playerPosition.x,playerPosition.y,bubbleElevatorDown.x,bubbleElevatorDown.y) <= 50 && playerPosition.z != -10){
     diving = true;
   }
   else{
@@ -322,7 +322,7 @@ void draw() {
   // Rise-area
   bubbleElevatorDown.drawCircle(50);
   
-  if (dist(playerPosition.x,playerPosition.y,bubbleElevatorDown.x,bubbleElevatorDown.y) <= 50 && playerPosition.z != 10){
+  if (dist(playerPosition.x,playerPosition.y,bubbleElevatorUp.x,bubbleElevatorUp.y) <= 50 && playerPosition.z != 10){
     rising = true;
   }
   else{
