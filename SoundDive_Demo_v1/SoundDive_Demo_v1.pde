@@ -49,7 +49,7 @@ Tracker tracker; // tracker for detecting light blobs in video input
 Blob [] blobs; // list of blobs
 
 boolean debugMode = false; // Boolean to toggle debug info. Bound to: "p"
-boolean kinectEnabled = false; // Boolean for toggling between Kinect and Video tracking. Bound to: "v"
+boolean kinectEnabled = true; // Boolean for toggling between Kinect and Video tracking. Bound to: "v"
 boolean manualMode = true; // Boolean for toggling between Blob based player movement and Manual mouse movement. Bound to: "M"
 boolean distanceLines = false; // Boolean for toggling distance lines. Bound to: "l"
 
